@@ -1,0 +1,16 @@
+
+1)docker run --name=activemqcontainer -it -d -p 61616:61616 -p 8161:8161 rmohr/activemq
+
+2)give container name activemqcontainer in the broker-url in application.properties
+
+  spring.activemq.broker-url=tcp://activemqcontainer:61616
+  
+3)mvn clean install
+  
+4)docker build -f Dockerfile -t spring-boot-activemq-send-image .
+
+5)docker run -t --name spring-boot-activemq-send-container --link activemqcontainer:activemq -p 8092:8080 spring-boot-activemq-send-image
+
+6)go to ActiveMQ admin console and check the message in the queue
+
+  http://localhost:8161/admin/
